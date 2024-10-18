@@ -1,0 +1,3 @@
+http://www.solartech.polimi.it/activities/forecasting/dataset/
+https://ieee-dataport.org/open-access/photovoltaic-power-and-weather-parameters#files
+https://ieee-dataport.org/datasets
