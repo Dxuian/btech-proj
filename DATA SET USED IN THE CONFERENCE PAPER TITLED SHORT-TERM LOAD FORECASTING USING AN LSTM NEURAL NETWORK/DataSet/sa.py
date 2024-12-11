@@ -28,10 +28,18 @@ weather_data2['DateTime'] = pd.to_datetime(weather_data2[['Year', 'Month', 'Day'
 weather_data2.drop(columns=['Year', 'Month', 'Day', 'Hour'], inplace=True)
 merged_data = pd.merge(load_data, weather_data1, left_on='Hour_End', right_on='DateTime')
 # print how many rows have Pressure_w3 = Pressure_w1
-merged_data2 = pd.merge(load_data, weather_data3, left_on='Hour_End', right_on='DateTime', suffixes=('_w1', '_w3'))
-merged_data3 = pd.merge(load_data, weather_data2, left_on='Hour_End', right_on='DateTime', suffixes=('_w1', '_w3', '_w2'))
-print(f"Number of rows where Pressure_w3 = Pressure_w1: {merged_data[merged_data['Pressure_w3'] == merged_data['Pressure_w1']].shape[0]}")
-merged_data.drop(columns=['DateTime_w1',  'DateTime_w3','Minute_w1','Minute_w3'], inplace=True)
+# merged_data2 = pd.merge(load_data, weather_data3, left_on='Hour_End', right_on='DateTime', suffixes=('_w1', '_w3'))
+merged_data2 = pd.merge(load_data, weather_data3, left_on='Hour_End', right_on='DateTime')
+merged_data3 = pd.merge(load_data, weather_data2, left_on='Hour_End', right_on='DateTime' )
+# merged_data3
+# merged_data3 = pd.merge(load_data, weather_data2, left_on='Hour_End', right_on='DateTime', suffixes=('_w1', '_w3', '_w2'))
+# stack all 3 mergered dataframes
+final_data = pd.concat([merged_data, merged_data2, merged_data3], axis=0)
+merged_data  = final_data
+#drop the DateTime column
+merged_data.drop(columns=['DateTime'], inplace=True)
+# print(f"Number of rows where Pressure_w3 = Pressure_w1: {merged_data[merged_data['Pressure_w3'] == merged_data['Pressure_w1']].shape[0]}")
+# merged_data.drop(columns=['DateTime_w1',  'DateTime_w3','Minute_w1','Minute_w3'], inplace=True)
 merged_data['TimeOfDayIndex'] = merged_data['Hour_End'].dt.hour
 merged_data['DayOfWeekIndex'] = merged_data['Hour_End'].dt.dayofweek
 # print('the shape is ' + str(merged_data.head(1)))
